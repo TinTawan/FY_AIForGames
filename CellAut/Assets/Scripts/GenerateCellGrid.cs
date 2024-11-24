@@ -46,10 +46,19 @@ public class GenerateCellGrid : MonoBehaviour
         cells = FindObjectsOfType<Cell>();
         foreach (Cell cell in cells)
         {
-            cell.NextGeneration();
+            cell.NextGeneration_Conway();
         }
 
 
+    }
+
+    public void TestGetCells()
+    {
+        cells = FindObjectsOfType<Cell>();
+        foreach (Cell cell in cells)
+        {
+            cell.NextGeneration();
+        }
     }
 
     public void Generate()

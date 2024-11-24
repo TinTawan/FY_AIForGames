@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Cell : MonoBehaviour
@@ -15,13 +17,18 @@ public class Cell : MonoBehaviour
 
     [SerializeField] private Color minColour = Color.white, maxColour = Color.blue;
 
+    float subtractVal;
+
+    private List<Cell> neighbourCells = new List<Cell>();
 
     public void Start()
     {
         cellRenderer = GetComponent<MeshRenderer>();
-        StartGeneration();
+        //StartGeneration();
 
         cellLevel = RandCellLevel();
+
+        //GetNeighbourCells();
     }
 
     private void Update()
@@ -45,6 +52,7 @@ public class Cell : MonoBehaviour
 
     }
 
+    //Conway's
     int CheckNeighbours()
     {
         //-1 as it counts itself
@@ -69,7 +77,43 @@ public class Cell : MonoBehaviour
         return output;
     }
 
+    void GetNeighbourCells()
+    {
+        Collider[] neighbours;
+        neighbours = Physics.OverlapSphere(transform.position, checkRadius, cellLayer);
 
+        /*for (int i = 0; i < neighbours.Length; i++)
+        {
+            neighbourCells.Add(neighbours[i].gameObject.GetComponent<Cell>());
+        }
+
+        return neighbourCells;*/
+
+        
+        foreach(Collider col in neighbours)
+        {
+            //neighbourCells.Add(col.gameObject.GetComponent<Cell>());
+
+            //Debug.Log(col.transform.position);
+
+            if(col == this.GetComponent<Collider>())
+            {
+                continue;
+            }
+
+            if (col.gameObject.TryGetComponent(out Cell cell))
+            {
+                neighbourCells.Add(cell);
+            }
+
+
+        }
+
+        //return neighbourCells;
+    }
+
+
+    //Conway's
     bool RuleCheck(int neighbours)
     {
         bool returnVal = false;
@@ -103,7 +147,8 @@ public class Cell : MonoBehaviour
         return returnVal;
     }
 
-    public void NextGeneration()
+    //Conway's
+    public void NextGeneration_Conway()
     {
         //isAlive = RuleCheck(CheckNeighbours());
 
@@ -117,6 +162,16 @@ public class Cell : MonoBehaviour
         }
     }
 
+    public void NextGeneration()
+    {
+        GetNeighbourCells();
+
+        //subtract proportion of cells value (0-1.5x)
+        subtractVal = Random.Range(0, cellLevel * 1.5f);
+        cellLevel -= subtractVal;
+    }
+
+    //Conway's
     public void StartGeneration()
     {
         //start with all cells "dead"
@@ -125,6 +180,7 @@ public class Cell : MonoBehaviour
         cellLevel = 0;
     }
 
+    //Conway's
     void CellClicked()
     {
         if (Input.GetMouseButtonDown(0))
