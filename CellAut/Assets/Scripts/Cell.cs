@@ -2,23 +2,18 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    [SerializeField] private bool isAlive;
+    //[SerializeField] private bool isAlive;
     //private int aliveNeighbours;
 
     [SerializeField] private float checkRadius = 8f;
     [SerializeField] private LayerMask cellLayer;
 
-    /*public enum rule
-    {
-        u,
-        s,
-        o,
-        r
-    };
-
-    [SerializeField] private rule cellRule;*/
-
     MeshRenderer cellRenderer;
+
+
+    [SerializeField] private float cellLevel;
+
+    [SerializeField] private Color minColour = Color.white, maxColour = Color.blue;
 
 
     public void Start()
@@ -26,11 +21,25 @@ public class Cell : MonoBehaviour
         cellRenderer = GetComponent<MeshRenderer>();
         StartGeneration();
 
+        cellLevel = RandCellLevel();
     }
 
     private void Update()
     {
-        cellRenderer.enabled = isAlive;
+        //cellRenderer.enabled = isAlive;
+        /*if(cellLevel == 1)
+        {
+            //cellRenderer.enabled = true;
+            cellRenderer.material.color = maxColour;
+        }
+        else
+        {
+            //cellRenderer.enabled = false;
+            cellRenderer.material.color = minColour;
+
+        }*/
+
+        cellRenderer.material.color = CellColourFromLevel(cellLevel);
 
         CellClicked();
 
@@ -39,13 +48,18 @@ public class Cell : MonoBehaviour
     int CheckNeighbours()
     {
         //-1 as it counts itself
-        Collider[] nbs;
-        nbs = Physics.OverlapSphere(transform.position, checkRadius, cellLayer);
+        Collider[] neighbours;
+        neighbours = Physics.OverlapSphere(transform.position, checkRadius, cellLayer);
 
         int output = 0;
-        foreach (Collider col in nbs)
+        foreach (Collider col in neighbours)
         {
-            if (col.gameObject.GetComponent<MeshRenderer>().enabled)
+            /*if (col.gameObject.GetComponent<MeshRenderer>().enabled)
+            {
+                output++;
+            }*/
+
+            if (col.gameObject.GetComponent<Cell>().GetCellLevel() == 1)
             {
                 output++;
             }
@@ -59,7 +73,7 @@ public class Cell : MonoBehaviour
     bool RuleCheck(int neighbours)
     {
         bool returnVal = false;
-        if (isAlive)
+        if (cellLevel == 1)
         {
             if (neighbours < 2)
             {
@@ -91,13 +105,24 @@ public class Cell : MonoBehaviour
 
     public void NextGeneration()
     {
-        isAlive = RuleCheck(CheckNeighbours());
+        //isAlive = RuleCheck(CheckNeighbours());
+
+        if (RuleCheck(CheckNeighbours()))
+        {
+            cellLevel = 1;
+        }
+        else
+        {
+            cellLevel = 0;
+        }
     }
 
     public void StartGeneration()
     {
         //start with all cells "dead"
-        isAlive = false;
+        //isAlive = false;
+
+        cellLevel = 0;
     }
 
     void CellClicked()
@@ -110,23 +135,42 @@ public class Cell : MonoBehaviour
                 Cell clickedCell = hit.transform.GetComponent<Cell>();
 
                 //clickedCell.cellRenderer.enabled = !clickedCell.cellRenderer.enabled;
-                clickedCell.isAlive = true;
+                //clickedCell.isAlive = true;
+                clickedCell.cellLevel = 1;
 
             }
 
         }
     }
 
-    void ToggleCell(Cell hitCell)
+    /*void ToggleCell(Cell hitCell)
     {
         hitCell.cellRenderer.enabled = !hitCell.cellRenderer.enabled;
         hitCell.isAlive = !hitCell.isAlive;
 
         Debug.Log(hitCell.isAlive);
-    }
+    }*/
 
-    public void SetAlive(bool inBool)
+    /*public void SetAlive(bool inBool)
     {
         isAlive = inBool;
+    }*/
+
+    float RandCellLevel()
+    {
+        return Random.Range(0f, 1f);
     }
+
+
+    Color CellColourFromLevel(float level)
+    {
+        return Color.Lerp(minColour, maxColour, level);
+    }
+
+
+    public float GetCellLevel()
+    {
+        return cellLevel;
+    }
+
 }

@@ -81,7 +81,7 @@ public class GenerateCellGrid : MonoBehaviour
 
     }
 
-    public void RandomiseGrid()
+    /*public void RandomiseGrid()
     {
         cells = FindObjectsOfType<Cell>();
         foreach (Cell cell in cells)
@@ -98,5 +98,5 @@ public class GenerateCellGrid : MonoBehaviour
         }
 
         
-    }
+    }*/
 }
