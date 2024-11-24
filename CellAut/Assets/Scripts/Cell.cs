@@ -1,5 +1,3 @@
-using Palmmedia.ReportGenerator.Core.Reporting.Builders;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Cell : MonoBehaviour
@@ -51,7 +49,7 @@ public class Cell : MonoBehaviour
             {
                 output++;
             }
-            
+
         }
 
         return output;
@@ -61,19 +59,19 @@ public class Cell : MonoBehaviour
     bool RuleCheck(int neighbours)
     {
         bool returnVal = false;
-        if(isAlive)
+        if (isAlive)
         {
             if (neighbours < 2)
             {
                 Debug.Log("dead by underpopulation");
                 returnVal = false;
             }
-            else if(neighbours == 2 || neighbours == 3)
+            else if (neighbours == 2 || neighbours == 3)
             {
                 Debug.Log("alive by sustainable");
                 returnVal = true;
             }
-            else if(neighbours > 3)
+            else if (neighbours > 3)
             {
                 Debug.Log("dead by overpopulation");
                 returnVal = false;
@@ -81,7 +79,7 @@ public class Cell : MonoBehaviour
         }
         else
         {
-            if(neighbours == 3)
+            if (neighbours == 3)
             {
                 Debug.Log("alive by reproduction");
                 returnVal = true;
@@ -113,7 +111,7 @@ public class Cell : MonoBehaviour
         //cellRenderer.enabled = false;
         isAlive = false;
     }
-    
+
     void CellClicked()
     {
         if (Input.GetMouseButtonDown(0))

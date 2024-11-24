@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,11 +19,11 @@ public class GenerateCellGrid : MonoBehaviour
     {
         for (int i = 0; i < gridSize; i++)
         {
-            for(int j = 0; j < gridSize; j++)
+            for (int j = 0; j < gridSize; j++)
             {
-                Vector3 place = new (i * 10, 0, j * 10);
+                Vector3 place = new(i * 10, 0, j * 10);
                 Instantiate(cellPrefab, place, Quaternion.identity, this.transform);
-                
+
             }
         }
 
@@ -50,7 +48,7 @@ public class GenerateCellGrid : MonoBehaviour
             cell.NextGeneration();
         }
 
-        
+
     }
 
     public void Generate()
@@ -65,7 +63,7 @@ public class GenerateCellGrid : MonoBehaviour
 
     void AutoGen()
     {
-        if(timer > genTime)
+        if (timer > genTime)
         {
             timer = 0;
             NextGen();
@@ -80,7 +78,7 @@ public class GenerateCellGrid : MonoBehaviour
     {
         isAuto = !isAuto;
 
-        if(isAuto )
+        /*if (isAuto)
         {
             autoButton.GetComponent<Image>().color = Color.green;
         }
@@ -88,7 +86,7 @@ public class GenerateCellGrid : MonoBehaviour
         {
             autoButton.GetComponent<Image>().color = Color.white;
 
-        }
+        }*/
 
     }
 }
