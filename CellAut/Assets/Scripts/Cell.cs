@@ -96,19 +96,7 @@ public class Cell : MonoBehaviour
 
     public void StartGeneration()
     {
-        /*if (Random.Range(0, 2) == 0)
-        {
-            isAlive = true;
-        }
-        else
-        {
-            cellRenderer.enabled = false;
-            isAlive = false;
-        }*/
-
-
         //start with all cells "dead"
-        //cellRenderer.enabled = false;
         isAlive = false;
     }
 
@@ -137,4 +125,8 @@ public class Cell : MonoBehaviour
         Debug.Log(hitCell.isAlive);
     }
 
+    public void SetAlive(bool inBool)
+    {
+        isAlive = inBool;
+    }
 }

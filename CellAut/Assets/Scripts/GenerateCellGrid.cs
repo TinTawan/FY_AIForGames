@@ -4,7 +4,8 @@ using UnityEngine.UI;
 public class GenerateCellGrid : MonoBehaviour
 {
     [SerializeField] private GameObject cellPrefab;
-    [SerializeField] int gridSize = 10;
+
+    [SerializeField] int gridX = 30, gridY = 15;
 
     Cell[] cells;
 
@@ -17,9 +18,9 @@ public class GenerateCellGrid : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < gridSize; i++)
+        for (int i = 0; i < gridX; i++)
         {
-            for (int j = 0; j < gridSize; j++)
+            for (int j = 0; j < gridY; j++)
             {
                 Vector3 place = new(i * 10, 0, j * 10);
                 Instantiate(cellPrefab, place, Quaternion.identity, this.transform);
@@ -78,15 +79,24 @@ public class GenerateCellGrid : MonoBehaviour
     {
         isAuto = !isAuto;
 
-        /*if (isAuto)
+    }
+
+    public void RandomiseGrid()
+    {
+        cells = FindObjectsOfType<Cell>();
+        foreach (Cell cell in cells)
         {
-            autoButton.GetComponent<Image>().color = Color.green;
+
+            if (Random.Range(0, 3) == 0)
+            {
+                cell.SetAlive(true);
+            }
+            else
+            {
+                cell.SetAlive(false);
+            }
         }
-        else
-        {
-            autoButton.GetComponent<Image>().color = Color.white;
 
-        }*/
-
+        
     }
 }
