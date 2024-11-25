@@ -14,7 +14,6 @@ public class GenerateCellGrid : MonoBehaviour
 
     bool isAuto = false;
 
-    [SerializeField] Button autoButton;
 
     void Start()
     {
@@ -23,7 +22,9 @@ public class GenerateCellGrid : MonoBehaviour
             for (int j = 0; j < gridY; j++)
             {
                 Vector3 place = new(i * 10, 0, j * 10);
-                Instantiate(cellPrefab, place, Quaternion.identity, this.transform);
+                GameObject initCell = Instantiate(cellPrefab, place, Quaternion.identity, this.transform);
+                initCell.name = $"Cell {i}-{j}";
+
 
             }
         }
@@ -39,34 +40,13 @@ public class GenerateCellGrid : MonoBehaviour
         }
     }
 
+
     public void NextGen()
-    {
-        Debug.ClearDeveloperConsole();
-
-        cells = FindObjectsOfType<Cell>();
-        foreach (Cell cell in cells)
-        {
-            cell.NextGeneration_Conway();
-        }
-
-
-    }
-
-    public void TestGetCells()
     {
         cells = FindObjectsOfType<Cell>();
         foreach (Cell cell in cells)
         {
             cell.NextGeneration();
-        }
-    }
-
-    public void Generate()
-    {
-        cells = FindObjectsOfType<Cell>();
-        foreach (Cell cell in cells)
-        {
-            cell.StartGeneration();
         }
     }
 
@@ -89,23 +69,4 @@ public class GenerateCellGrid : MonoBehaviour
         isAuto = !isAuto;
 
     }
-
-    /*public void RandomiseGrid()
-    {
-        cells = FindObjectsOfType<Cell>();
-        foreach (Cell cell in cells)
-        {
-
-            if (Random.Range(0, 3) == 0)
-            {
-                cell.SetAlive(true);
-            }
-            else
-            {
-                cell.SetAlive(false);
-            }
-        }
-
-        
-    }*/
 }

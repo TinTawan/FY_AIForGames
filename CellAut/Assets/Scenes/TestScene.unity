@@ -516,10 +516,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 510827394864111918, guid: 8a380c98639bbf941b69706f7a6483b3, type: 3}
-  gridX: 3
-  gridY: 3
-  genTime: 0.5
-  autoButton: {fileID: 0}
+  gridX: 50
+  gridY: 30
+  genTime: 0.3
 --- !u!4 &761699278
 Transform:
   m_ObjectHideFlags: 0
@@ -770,7 +769,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 761699277}
         m_TargetAssemblyTypeName: GenerateCellGrid, Assembly-CSharp
-        m_MethodName: TestGetCells
+        m_MethodName: NextGen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

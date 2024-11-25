@@ -4,77 +4,35 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    //[SerializeField] private bool isAlive;
-    //private int aliveNeighbours;
-
     [SerializeField] private float checkRadius = 8f;
     [SerializeField] private LayerMask cellLayer;
 
     MeshRenderer cellRenderer;
 
-
     [SerializeField] private float cellLevel;
-
     [SerializeField] private Color minColour = Color.white, maxColour = Color.blue;
 
     float subtractVal;
 
     private List<Cell> neighbourCells = new List<Cell>();
+    private Cell[] allCells;
+
+    [SerializeField] private int randomiseCellVariance = 20;
 
     public void Start()
     {
         cellRenderer = GetComponent<MeshRenderer>();
-        //StartGeneration();
 
         cellLevel = RandCellLevel();
 
-        //GetNeighbourCells();
+        GetAllCells();
+
     }
 
     private void Update()
     {
-        //cellRenderer.enabled = isAlive;
-        /*if(cellLevel == 1)
-        {
-            //cellRenderer.enabled = true;
-            cellRenderer.material.color = maxColour;
-        }
-        else
-        {
-            //cellRenderer.enabled = false;
-            cellRenderer.material.color = minColour;
-
-        }*/
-
         cellRenderer.material.color = CellColourFromLevel(cellLevel);
 
-        CellClicked();
-
-    }
-
-    //Conway's
-    int CheckNeighbours()
-    {
-        //-1 as it counts itself
-        Collider[] neighbours;
-        neighbours = Physics.OverlapSphere(transform.position, checkRadius, cellLayer);
-
-        int output = 0;
-        foreach (Collider col in neighbours)
-        {
-            /*if (col.gameObject.GetComponent<MeshRenderer>().enabled)
-            {
-                output++;
-            }*/
-
-            if (col.gameObject.GetComponent<Cell>().GetCellLevel() == 1)
-            {
-                output++;
-            }
-
-        }
-
-        return output;
     }
 
     void GetNeighbourCells()
@@ -82,20 +40,9 @@ public class Cell : MonoBehaviour
         Collider[] neighbours;
         neighbours = Physics.OverlapSphere(transform.position, checkRadius, cellLayer);
 
-        /*for (int i = 0; i < neighbours.Length; i++)
-        {
-            neighbourCells.Add(neighbours[i].gameObject.GetComponent<Cell>());
-        }
-
-        return neighbourCells;*/
-
-        
         foreach(Collider col in neighbours)
         {
-            //neighbourCells.Add(col.gameObject.GetComponent<Cell>());
-
-            //Debug.Log(col.transform.position);
-
+            //skip this object so it doesnt include itself
             if(col == this.GetComponent<Collider>())
             {
                 continue;
@@ -109,76 +56,72 @@ public class Cell : MonoBehaviour
 
         }
 
-        //return neighbourCells;
     }
 
 
-    //Conway's
-    bool RuleCheck(int neighbours)
-    {
-        bool returnVal = false;
-        if (cellLevel == 1)
-        {
-            if (neighbours < 2)
-            {
-                Debug.Log("dead by underpopulation");
-                returnVal = false;
-            }
-            else if (neighbours == 2 || neighbours == 3)
-            {
-                Debug.Log("alive by sustainable");
-                returnVal = true;
-            }
-            else if (neighbours > 3)
-            {
-                Debug.Log("dead by overpopulation");
-                returnVal = false;
-            }
-        }
-        else
-        {
-            if (neighbours == 3)
-            {
-                Debug.Log("alive by reproduction");
-                returnVal = true;
-            }
-        }
-
-        return returnVal;
-    }
-
-    //Conway's
-    public void NextGeneration_Conway()
-    {
-        //isAlive = RuleCheck(CheckNeighbours());
-
-        if (RuleCheck(CheckNeighbours()))
-        {
-            cellLevel = 1;
-        }
-        else
-        {
-            cellLevel = 0;
-        }
-    }
 
     public void NextGeneration()
     {
         GetNeighbourCells();
 
         //subtract proportion of cells value (0-1.5x)
-        subtractVal = Random.Range(0, cellLevel * 1.5f);
+        subtractVal = Random.Range(0, cellLevel * 1.75f);
         cellLevel -= subtractVal;
+
+        //then get up and right cell
+        // -- for up check x pos is the same and z is >, for right check z is same and x >
+        Cell upCell, rightCell;
+        foreach (Cell cell in neighbourCells)
+        {
+            //and add a proportion of the subtract val to each of their cell levels
+            float ratio = Random.value;
+            float val1 = subtractVal * ratio;
+            float val2 = subtractVal * (1 - ratio);
+
+            //up cell
+            if (cell.gameObject.transform.position.x == transform.position.x && cell.gameObject.transform.position.z > transform.position.z)
+            {
+                upCell = cell;
+                //Debug.Log($"{gameObject.name} - up cell: {upCell.name}");
+
+                if (val1 > val2)
+                {
+                    upCell.cellLevel += subtractVal * val2;
+                }
+                else
+                {
+                    upCell.cellLevel += subtractVal * val1;
+                }
+
+                upCell.cellLevel = Mathf.Clamp(cellLevel, 0, 1);
+            }
+            //right cell 
+            else if(cell.gameObject.transform.position.x > transform.position.x && cell.gameObject.transform.position.z == transform.position.z)
+            {
+                rightCell = cell;
+                //Debug.Log($"{gameObject.name} - right cell: {rightCell.name}");
+
+                if (val1 > val2)
+                {
+                    rightCell.cellLevel += subtractVal * val1;
+                }
+                else
+                {
+                    rightCell.cellLevel += subtractVal * val2;
+                }
+                rightCell.cellLevel = Mathf.Clamp(cellLevel, 0, 1);
+            }
+        }
+
+        //then randomly choose a number of cells to set to given value;
+        ChooseRandCellsToSet(randomiseCellVariance, 0.3f);
+
+        //finally clamp value between 0 and 1
+        cellLevel = Mathf.Clamp(cellLevel, 0, 1);
+
+
     }
 
-    //Conway's
-    public void StartGeneration()
-    {
-        //start with all cells "dead"
-        //isAlive = false;
-
-        cellLevel = 0;
-    }
 
     //Conway's
     void CellClicked()
@@ -199,19 +142,6 @@ public class Cell : MonoBehaviour
         }
     }
 
-    /*void ToggleCell(Cell hitCell)
-    {
-        hitCell.cellRenderer.enabled = !hitCell.cellRenderer.enabled;
-        hitCell.isAlive = !hitCell.isAlive;
-
-        Debug.Log(hitCell.isAlive);
-    }*/
-
-    /*public void SetAlive(bool inBool)
-    {
-        isAlive = inBool;
-    }*/
-
     float RandCellLevel()
     {
         return Random.Range(0f, 1f);
@@ -227,6 +157,34 @@ public class Cell : MonoBehaviour
     public float GetCellLevel()
     {
         return cellLevel;
+    }
+
+    void GetAllCells()
+    {
+        allCells = GameObject.FindObjectsOfType<Cell>();
+
+    }
+
+    void ChooseRandCellsToSet(int variance, float newCellLevel)
+    {
+        /*int cellsToSet = Random.Range(0, variance);
+
+        for(int i = 0; i < cellsToSet; i++)
+        {
+            //allCells[Mathf.RoundToInt(Random.value * numOfCells)].cellLevel = newCellLevel;
+
+            allCells[Random.Range(0, allCells.Length)].cellLevel = newCellLevel;
+
+        }*/
+
+        int cellsToSet = Random.Range(0, 3);
+        for (int i = 0; i < cellsToSet; i++)
+        {
+            allCells[Random.Range(0, allCells.Length)].cellLevel = newCellLevel;
+        }
+
+
+
     }
 
 }
