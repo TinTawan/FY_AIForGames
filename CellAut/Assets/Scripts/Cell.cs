@@ -27,11 +27,13 @@ public class Cell : MonoBehaviour
 
         GetAllCells();
 
+        cellRenderer.material.color = SetCellColour(cellLevel);
+
     }
 
     private void Update()
     {
-        cellRenderer.material.color = CellColourFromLevel(cellLevel);
+        //cellRenderer.material.color = CellColourFromLevel(cellLevel);
 
         CellClicked();
     }
@@ -66,59 +68,67 @@ public class Cell : MonoBehaviour
         GetNeighbourCells();
 
         //subtract proportion of cells value (0-1.5x)
-        subtractVal = Random.Range(0, cellLevel * 1.25f);
+        subtractVal = Random.Range(0, cellLevel * 1.5f);
         cellLevel -= subtractVal;
+
+        float ratio = Random.value;
+        float val1 = subtractVal * ratio;
+        float val2 = subtractVal * (1 - ratio);
 
         //then get up and right cell
         // -- for up check x pos is the same and z is >, for right check z is same and x >
-        Cell upCell, rightCell;
+        //Cell upCell, rightCell;
         foreach (Cell cell in neighbourCells)
         {
             //and add a proportion of the subtract val to each of their cell levels
-            float ratio = Random.value;
-            float val1 = subtractVal * ratio;
-            float val2 = subtractVal * (1 - ratio);
+            
 
             //up cell
             if (cell.gameObject.transform.position.x == transform.position.x && cell.gameObject.transform.position.z > transform.position.z)
             {
-                upCell = cell;
+                //upCell = cell;
                 //Debug.Log($"{gameObject.name} - up cell: {upCell.name}");
 
-                if (val1 > val2)
+                /*if (val1 > val2)
                 {
                     upCell.cellLevel += subtractVal * val2;
                 }
                 else
                 {
                     upCell.cellLevel += subtractVal * val1;
-                }
+                }*/
 
-                upCell.cellLevel = Mathf.Clamp(cellLevel, 0, 1);
+                cell.cellLevel += (val1 > val2) ? val2 : val1;
+
+                cell.cellLevel = Mathf.Clamp(cellLevel, 0f, 1f);
             }
             //right cell 
-            else if(cell.gameObject.transform.position.x > transform.position.x && cell.gameObject.transform.position.z == transform.position.z)
+            if(cell.gameObject.transform.position.x > transform.position.x && cell.gameObject.transform.position.z == transform.position.z)
             {
-                rightCell = cell;
+                //rightCell = cell;
                 //Debug.Log($"{gameObject.name} - right cell: {rightCell.name}");
 
-                if (val1 > val2)
+                /*if (val1 > val2)
                 {
                     rightCell.cellLevel += subtractVal * val1;
                 }
                 else
                 {
                     rightCell.cellLevel += subtractVal * val2;
-                }
-                rightCell.cellLevel = Mathf.Clamp(cellLevel, 0, 1);
+                }*/
+
+                cell.cellLevel += (val1 > val2) ? val1 : val2;
+
+                cell.cellLevel = Mathf.Clamp(cellLevel, 0f, 1f);
             }
         }
 
         //then randomly choose a number of cells to set to given value;
-        ChooseRandCellsToSet(0.45f);
+        //ChooseRandCellsToSet(0.8f);
 
-        //finally clamp value between 0 and 1
-        cellLevel = Mathf.Clamp(cellLevel, 0, 1);
+        //finally clamp value between 0 and 1 and set colour
+        //cellLevel = Mathf.Clamp(cellLevel, 0, 1);
+        cellRenderer.material.color = SetCellColour(cellLevel);
 
 
     }
@@ -134,9 +144,9 @@ public class Cell : MonoBehaviour
             {
                 Cell clickedCell = hit.transform.GetComponent<Cell>();
 
-                //clickedCell.cellRenderer.enabled = !clickedCell.cellRenderer.enabled;
-                //clickedCell.isAlive = true;
                 clickedCell.cellLevel = 1;
+                clickedCell.cellRenderer.material.color = SetCellColour(1);
+                
 
             }
 
@@ -149,9 +159,9 @@ public class Cell : MonoBehaviour
     }
 
 
-    Color CellColourFromLevel(float level)
+    Color SetCellColour(float newCellLevel)
     {
-        return Color.Lerp(minColour, maxColour, level);
+        return Color.Lerp(minColour, maxColour, newCellLevel);
     }
 
 
@@ -190,7 +200,7 @@ public class Cell : MonoBehaviour
         }*/
 
         int cellsToSet = Random.Range(0, 5);
-        if(cellsToSet < 3)
+        if(cellsToSet == 0)
         {
             allCells[Random.Range(0, allCells.Length)].SetCellLevel(newCellLevel);
         }

@@ -47,6 +47,12 @@ public class GenerateCellGrid : MonoBehaviour
         foreach (Cell cell in cells)
         {
             cell.NextGeneration();
+
+            int cellsToSet = Random.Range(0, 5);
+            if (cellsToSet == 0)
+            {
+                cells[Random.Range(0, cells.Length)].SetCellLevel(0.8f);
+            }
         }
     }
 

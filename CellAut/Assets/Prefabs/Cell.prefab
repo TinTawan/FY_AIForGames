@@ -123,5 +123,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   cellLevel: 0
-  minColour: {r: 1, g: 1, b: 1, a: 1}
-  maxColour: {r: 0, g: 0.4249997, b: 1, a: 1}
+  minColour: {r: 0, g: 0.37558243, b: 0.8867924, a: 1}
+  maxColour: {r: 1, g: 1, b: 1, a: 1}
