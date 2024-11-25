@@ -17,7 +17,7 @@ public class Cell : MonoBehaviour
     private List<Cell> neighbourCells = new List<Cell>();
     private Cell[] allCells;
 
-    [SerializeField] private int randomiseCellVariance = 20;
+    //[SerializeField] private int randomiseCellVariance = 20;
 
     public void Start()
     {
@@ -33,6 +33,7 @@ public class Cell : MonoBehaviour
     {
         cellRenderer.material.color = CellColourFromLevel(cellLevel);
 
+        CellClicked();
     }
 
     void GetNeighbourCells()
@@ -65,7 +66,7 @@ public class Cell : MonoBehaviour
         GetNeighbourCells();
 
         //subtract proportion of cells value (0-1.5x)
-        subtractVal = Random.Range(0, cellLevel * 1.75f);
+        subtractVal = Random.Range(0, cellLevel * 1.25f);
         cellLevel -= subtractVal;
 
         //then get up and right cell
@@ -114,7 +115,7 @@ public class Cell : MonoBehaviour
         }
 
         //then randomly choose a number of cells to set to given value;
-        ChooseRandCellsToSet(randomiseCellVariance, 0.3f);
+        ChooseRandCellsToSet(0.45f);
 
         //finally clamp value between 0 and 1
         cellLevel = Mathf.Clamp(cellLevel, 0, 1);
@@ -159,13 +160,18 @@ public class Cell : MonoBehaviour
         return cellLevel;
     }
 
+    public void SetCellLevel(float inLevel)
+    {
+        cellLevel = inLevel;
+    }
+
     void GetAllCells()
     {
         allCells = GameObject.FindObjectsOfType<Cell>();
 
     }
 
-    void ChooseRandCellsToSet(int variance, float newCellLevel)
+    void ChooseRandCellsToSet(float newCellLevel)
     {
         /*int cellsToSet = Random.Range(0, variance);
 
@@ -177,13 +183,17 @@ public class Cell : MonoBehaviour
 
         }*/
 
-        int cellsToSet = Random.Range(0, 3);
+        /*int cellsToSet = Random.Range(0, 2);
         for (int i = 0; i < cellsToSet; i++)
         {
-            allCells[Random.Range(0, allCells.Length)].cellLevel = newCellLevel;
+            allCells[Random.Range(0, allCells.Length)].SetCellLevel(newCellLevel);
+        }*/
+
+        int cellsToSet = Random.Range(0, 5);
+        if(cellsToSet < 3)
+        {
+            allCells[Random.Range(0, allCells.Length)].SetCellLevel(newCellLevel);
         }
-
-
 
     }
 
