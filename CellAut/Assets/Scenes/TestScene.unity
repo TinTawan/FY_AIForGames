@@ -2203,10 +2203,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 8547800455692566136, guid: 7dc1da6d53db5c747a65cce730eda031, type: 3}
   cellSize: 35
-  genTime: 0.5
-  randomCellLevel: 0.8
+  genTime: 0.2
+  randomCellLevel: 0.95
   chanceOfRandom: 2
-  cellCountDivider: 7
+  cellCountDivider: 8
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

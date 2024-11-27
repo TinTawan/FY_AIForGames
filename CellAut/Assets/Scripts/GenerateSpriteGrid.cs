@@ -40,6 +40,8 @@ public class GenerateSpriteGrid : MonoBehaviour
                 initCell.GetComponent<RectTransform>().sizeDelta = new(cellSize, cellSize);
                 initCell.GetComponent<BoxCollider2D>().size = new(cellSize, cellSize);
 
+                initCell.GetComponent<SpriteCell>().SetCheckRadius(cellSize / 2);
+
                 //Debug.Log(i*j);
             }
         }
