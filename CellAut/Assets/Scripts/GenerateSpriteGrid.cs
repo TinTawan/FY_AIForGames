@@ -85,11 +85,6 @@ public class GenerateSpriteGrid : MonoBehaviour
         }
     }
 
-    public void ToggleAuto()
-    {
-        isAuto = !isAuto;
-
-    }
 
     void RandCellLevel(float newCellLevel)
     {
@@ -104,6 +99,26 @@ public class GenerateSpriteGrid : MonoBehaviour
             }
 
         }
+    }
+
+    public void ToggleAuto()
+    {
+        isAuto = !isAuto;
+
+    }
+
+    public bool GetIsAuto()
+    {
+        return isAuto;
+    }
+    public float GetAutoGenTime()
+    {
+        return genTime;
+    }
+
+    public void SetAutoGenTime(float inTime)
+    {
+        genTime = inTime;
     }
 
 }
