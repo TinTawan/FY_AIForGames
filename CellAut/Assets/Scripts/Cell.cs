@@ -26,6 +26,7 @@ public class Cell : MonoBehaviour
         cellLevel = RandCellLevel();
 
         //GetAllCells();
+        GetNeighbourCells();
 
         cellRenderer.material.color = SetCellColour(cellLevel);
 
@@ -65,7 +66,7 @@ public class Cell : MonoBehaviour
 
     public void NextGeneration()
     {
-        GetNeighbourCells();
+        
 
         //subtract proportion of cells value (0-1.5x)
         subtractVal = Random.Range(0, cellLevel * 0.5f);

@@ -840,7 +840,7 @@ GameObject:
   - component: {fileID: 761699278}
   - component: {fileID: 761699277}
   m_Layer: 0
-  m_Name: GenerateGrid
+  m_Name: GenerateGrid3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2164,7 +2164,7 @@ GameObject:
   - component: {fileID: 2024248281}
   - component: {fileID: 2024248282}
   m_Layer: 5
-  m_Name: GenerateGrid
+  m_Name: GenerateGrid2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2206,7 +2206,7 @@ MonoBehaviour:
   genTime: 0.2
   randomCellLevel: 0.95
   chanceOfRandom: 2
-  cellCountDivider: 8
+  cellCountDivider: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
