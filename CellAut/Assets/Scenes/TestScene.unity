@@ -2202,7 +2202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 8547800455692566136, guid: 7dc1da6d53db5c747a65cce730eda031, type: 3}
-  cellSize: 500
+  cellSize: 35
   genTime: 0.5
   randomCellLevel: 0.8
   chanceOfRandom: 2

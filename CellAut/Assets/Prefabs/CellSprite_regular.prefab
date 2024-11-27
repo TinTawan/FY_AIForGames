@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a7530fda0e83b41a60c3b254d74064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkRadius: 8
+  checkRadius: 25
   cellLayer:
     serializedVersion: 2
     m_Bits: 64

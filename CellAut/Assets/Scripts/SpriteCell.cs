@@ -27,7 +27,7 @@ public class SpriteCell : MonoBehaviour
         cellLevel = Random.Range(0f, 1f);
         image.color = SetCellColour(cellLevel);
 
-
+        GetNeighbourCells();
     }
 
     void GetNeighbourCells()
@@ -56,7 +56,7 @@ public class SpriteCell : MonoBehaviour
 
     public void NextGeneration()
     {
-        GetNeighbourCells();
+        
 
         //subtract proportion of cells value (0-1.5x)
         subtractVal = Random.Range(0, cellLevel * 0.5f);
@@ -74,25 +74,33 @@ public class SpriteCell : MonoBehaviour
             RectTransform currentCellRectTransform = cell.GetComponent<RectTransform>();
             //and add a proportion of the subtract val to each of their cell levels
             //up cell
-            if (currentCellRectTransform.rect.x == rectTransform.rect.x && currentCellRectTransform.rect.y > rectTransform.rect.y)
+            /*if (currentCellRectTransform.rect.x == rectTransform.rect.x && currentCellRectTransform.rect.y > rectTransform.rect.y)
             {
-                /*cell.cellLevel += (val1 > val2) ? val2 : val1;
+                *//*cell.cellLevel += (val1 > val2) ? val2 : val1;
 
-                cell.cellLevel = Mathf.Clamp(cellLevel, 0f, 1f);*/
+                cell.cellLevel = Mathf.Clamp(cellLevel, 0f, 1f);*//*
 
                 Debug.Log($"{gameObject.name} - up cell: {cell.name}");
             }
             //right cell
             if (currentCellRectTransform.rect.x > rectTransform.rect.x && currentCellRectTransform.rect.y == rectTransform.rect.y)
             {
-                /*cell.cellLevel += (val1 > val2) ? val1 : val2;
+                *//*cell.cellLevel += (val1 > val2) ? val1 : val2;
 
-                cell.cellLevel = Mathf.Clamp(cellLevel, 0f, 1f);*/
+                cell.cellLevel = Mathf.Clamp(cellLevel, 0f, 1f);*//*
 
+                Debug.Log($"{gameObject.name} - right cell: {cell.name}");
+            }*/
+
+            if(cell.gameObject.transform.position.x == transform.position.x && cell.gameObject.transform.position.y > transform.position.y)
+            {
+                Debug.Log($"{gameObject.name} - up cell: {cell.name}");
+            }
+            if (cell.gameObject.transform.position.x > transform.position.x && cell.gameObject.transform.position.y == transform.position.y)
+            {
                 Debug.Log($"{gameObject.name} - right cell: {cell.name}");
             }
 
-            
         }
 
         //then randomly choose a number of cells to set to given value;
