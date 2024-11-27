@@ -6,17 +6,16 @@ public class GenerateSpriteGrid : MonoBehaviour
 {
     [SerializeField] private GameObject cellPrefab;
     [SerializeField] private float cellSize = 50;
- 
-    RectTransform rectTransform, cellRectTransform;
 
+    RectTransform rectTransform;
     SpriteCell[] cells;
 
+    [Header("Cell Generation")]
     [Tooltip("How often, in seconds, each generation happens when auto generating")]
     [SerializeField] float genTime = 1f;
     float timer = 0f;
     bool isAuto = false;
 
-    [Header("Cell Generation")]
     [Tooltip("Each generation, a random number of cells will be set to this value\n0 = Deep Blue, 1 = White")]
     [SerializeField] private float randomCellLevel = 0.8f;
     [Tooltip("Lower number = higher chance")]
@@ -27,25 +26,28 @@ public class GenerateSpriteGrid : MonoBehaviour
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
-        //cellRectTransform = cellPrefab.GetComponent<RectTransform>();
 
         for (int i = 1; i < rectTransform.rect.width / cellSize; i++)
         {
             for (int j = 1; j < rectTransform.rect.height / cellSize; j++)
             {
+                //instantiate a cell at the position in the grid, with the parent being this object
                 Vector2 place = new(i * cellSize, j * cellSize);
                 GameObject initCell = Instantiate(cellPrefab, place, Quaternion.identity, this.transform);
+
+                //name it as its grid position for ease of testing 
                 initCell.name = $"Cell {i}-{j}";
 
+                //set the size and collider size
                 initCell.GetComponent<RectTransform>().sizeDelta = new(cellSize, cellSize);
                 initCell.GetComponent<BoxCollider2D>().size = new(cellSize, cellSize);
 
+                //scale cell's check radius with the size
                 initCell.GetComponent<SpriteCell>().SetCheckRadius(cellSize / 2);
-
-                //Debug.Log(i*j);
             }
         }
 
+        //collect all cells into an array (better to use this over GetComponentsInChildren)
         cells = FindObjectsOfType<SpriteCell>();
     }
 
@@ -60,18 +62,12 @@ public class GenerateSpriteGrid : MonoBehaviour
 
     public void NextGen()
     {
-
         foreach (SpriteCell cell in cells)
         {
             cell.NextGeneration();
-
-            /*int cellsToSet = Random.Range(0, 5);
-            if (cellsToSet == 0)
-            {
-                cells[Random.Range(0, cells.Length)].SetCellLevel(0.8f);
-            }*/
         }
 
+        //each generation theres a chance for cells to change
         RandCellLevel(randomCellLevel);
     }
 
@@ -97,14 +93,14 @@ public class GenerateSpriteGrid : MonoBehaviour
 
     void RandCellLevel(float newCellLevel)
     {
-        int cellsToSet = Random.Range(0, chanceOfRandom);
-        if (cellsToSet == 0)
+        int randChance = Random.Range(0, chanceOfRandom);
+        if (randChance == 0)
         {
+            //set a fraction of the total cells to a higher level
             int randNumOfCells = Random.Range(0, cells.Length / cellCountDivider);
             for (int i = 0; i < randNumOfCells; i++)
             {
                 cells[Random.Range(0, cells.Length)].SetCellLevel(newCellLevel);
-                //Debug.Log("pluh");
             }
 
         }
