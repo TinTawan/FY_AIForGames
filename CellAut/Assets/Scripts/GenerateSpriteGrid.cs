@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GenerateSpriteGrid : MonoBehaviour
@@ -64,6 +65,16 @@ public class GenerateSpriteGrid : MonoBehaviour
         else
         {
             genTimeSlider.gameObject.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
         }
     }
 
@@ -135,5 +146,6 @@ public class GenerateSpriteGrid : MonoBehaviour
         genTimeText.text = System.Math.Round(genTime, 2).ToString();
         genTime = genTimeSlider.value;
     }
+
 
 }
