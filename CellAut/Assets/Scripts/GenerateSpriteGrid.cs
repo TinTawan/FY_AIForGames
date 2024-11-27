@@ -1,11 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class GenerateSpriteGrid : MonoBehaviour
 {
     [SerializeField] private GameObject cellPrefab;
     [SerializeField] private float cellSize = 50;
+
+    [SerializeField] private TextMeshProUGUI genTimeText;
+    [SerializeField] private Slider genTimeSlider;
 
     RectTransform rectTransform;
     SpriteCell[] cells;
@@ -56,6 +59,11 @@ public class GenerateSpriteGrid : MonoBehaviour
         if (isAuto)
         {
             AutoGen();
+            genTimeSlider.gameObject.SetActive(true);
+        }
+        else
+        {
+            genTimeSlider.gameObject.SetActive(false);
         }
     }
 
@@ -119,6 +127,13 @@ public class GenerateSpriteGrid : MonoBehaviour
     public void SetAutoGenTime(float inTime)
     {
         genTime = inTime;
+    }
+
+
+    public void Slider()
+    {
+        genTimeText.text = System.Math.Round(genTime, 2).ToString();
+        genTime = genTimeSlider.value;
     }
 
 }
