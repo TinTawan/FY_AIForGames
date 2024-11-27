@@ -25,7 +25,7 @@ public class Cell : MonoBehaviour
 
         cellLevel = RandCellLevel();
 
-        GetAllCells();
+        //GetAllCells();
 
         cellRenderer.material.color = SetCellColour(cellLevel);
 

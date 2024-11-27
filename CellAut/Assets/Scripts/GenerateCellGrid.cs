@@ -41,6 +41,7 @@ public class GenerateCellGrid : MonoBehaviour
         }
 
         cells = FindObjectsOfType<Cell>();
+        //cells = GetComponentsInChildren<Cell>();
     }
 
     private void Update()
