@@ -68,7 +68,7 @@ public class Cell : MonoBehaviour
         GetNeighbourCells();
 
         //subtract proportion of cells value (0-1.5x)
-        subtractVal = Random.Range(0, cellLevel * 1.5f);
+        subtractVal = Random.Range(0, cellLevel * 0.5f);
         cellLevel -= subtractVal;
 
         float ratio = Random.value;

@@ -515,10 +515,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c646f25393786c34d8383de433e16cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellPrefab: {fileID: 510827394864111918, guid: 8a380c98639bbf941b69706f7a6483b3, type: 3}
+  cellPrefab: {fileID: 7740130429966057041, guid: f7c1d6ec951811e408c623a1955bb6d5, type: 3}
   gridX: 50
   gridY: 30
   genTime: 0.3
+  randomCellLevel: 0.8
+  chanceOfRandom: 2
+  cellCountDivider: 7
 --- !u!4 &761699278
 Transform:
   m_ObjectHideFlags: 0
