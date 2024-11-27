@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 635423243243777327}
   - component: {fileID: 1615802019911977896}
   m_Layer: 6
-  m_Name: CellSprite_old
+  m_Name: CellSprite_regular
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 10}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5682722392924318645
 CanvasRenderer:
@@ -120,7 +120,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 10, y: 10}
+  m_Size: {x: 50, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &1615802019911977896
 MonoBehaviour:
@@ -139,5 +139,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   cellLevel: 0
-  minColour: {r: 0, g: 0, b: 1, a: 1}
+  minColour: {r: 0, g: 0.3764706, b: 0.8862745, a: 1}
   maxColour: {r: 1, g: 1, b: 1, a: 1}

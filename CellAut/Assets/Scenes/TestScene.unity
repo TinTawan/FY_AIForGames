@@ -1667,7 +1667,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd642b811f17bd4fb3807b2a8369821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellPrefab: {fileID: 4502589514239759543, guid: accc42583ebac9042b44e506e468d2fc, type: 3}
+  cellPrefab: {fileID: 8547800455692566136, guid: 7dc1da6d53db5c747a65cce730eda031, type: 3}
+  cellSize: 35
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
